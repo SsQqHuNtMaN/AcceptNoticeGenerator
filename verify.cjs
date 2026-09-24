@@ -100,16 +100,6 @@ const { pathToFileURL } = require('node:url');
     assert.equal(await page.locator('#tableBody tr').last().locator('td').count(), 2);
     assert.equal(await page.locator('#tableBody tr').last().locator('td').last().getAttribute('colspan'), '3');
     await exportPNG('reference-figure-2.png', 1440, 1);
-    const customBody = await page.locator('#body').textContent();
-    await page.locator('#restoreDefaultTable').click();
-    assert.equal(await page.locator('#detailsTitle').textContent(), '一些信息');
-    assert.deepEqual(await page.locator('#tableBody tr').allTextContents(), [
-      '我也不知道发生了什么',
-      '但是听说这种图片配色就算不点开看',
-      '也有人会点赞提前祝愿',
-      '朋友圈的各位国庆节快乐！'
-    ]);
-    assert.equal(await page.locator('#body').textContent(), customBody);
     await page.evaluate(() => localStorage.setItem('notice-generator-v1', JSON.stringify({
       body: '您好，距离国庆节还有5天，马上就要国庆假期了，要一起快乐起来吗？',
       status: '您于2026-09-25 14:00接受了一张快乐邀请函',

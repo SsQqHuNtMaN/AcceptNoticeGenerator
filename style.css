@@ -28,8 +28,7 @@ textarea { resize: vertical; line-height: 1.7; min-height: 65px; }
 input::placeholder { color: #a7b0bb; }
 .field-pair { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
 .field-pair label { margin-bottom: 15px; }
-.row-help { font-size: 10px; color: #95a1ae; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 4px 10px; margin-bottom: 12px; }
-.entry-actions { display: flex; align-items: center; gap: 12px; }
+.row-help { font-size: 10px; color: #95a1ae; display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
 .text-button { background: none; border: 0; color: #4c88bd; padding: 4px 0; font-size: 11px; }
 .entry-edit { border: 1px solid #e5ebf2; border-radius: 8px; background: #f9fbfd; padding: 10px; margin-bottom: 9px; }
 .entry-edit-header { display: flex; justify-content: space-between; align-items: center; font-size: 10px; color: #8d9aac; margin-bottom: 4px; }
