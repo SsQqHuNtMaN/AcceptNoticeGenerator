@@ -1,5 +1,7 @@
 # 通知图片生成器
 
+在线使用：[GitHub Pages](https://SsQqHuNtMaN.github.io/AcceptNoticeGenerator/)
+
 双击 `index.html`，使用 Chrome 或 Edge 打开，无需安装、启动服务器或联网。
 
 统一 HTML 模板参考提供图片中的浅蓝通知区、蓝色渐变标题、绿色确认状态及四列表格。初始文字为节日邀请内容，可以全部修改，没有区分恶搞和正式两套模板。
@@ -17,4 +19,4 @@
 
 ## GitHub Pages 部署
 
-仓库中的 `.github/workflows/deploy.yml` 会在每次推送到 `main` 后，把网页文件发布到 GitHub Pages。仓库的 **Settings → Pages → Build and deployment → Source** 需设置为 **GitHub Actions**。发布地址通常为 `https://<用户名>.github.io/AcceptNoticeGenerator/`。
+仓库中的 `.github/workflows/deploy.yml` 会在每次推送到 `main` 后，把网页文件发布到 GitHub Pages。仓库的 **Settings → Pages → Build and deployment → Source** 需设置为 **GitHub Actions**。发布地址为 `https://SsQqHuNtMaN.github.io/AcceptNoticeGenerator/`。
