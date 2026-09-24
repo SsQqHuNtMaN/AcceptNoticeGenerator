@@ -3,14 +3,14 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>通知图片生成器</title>
+  <title>录取通知生成器</title>
   <link rel="stylesheet" href="style.css?v=20260924b">
   <script defer src="vendor/html2canvas.min.js"></script>
-  <script defer src="app.js?v=20260924b"></script>
+  <script defer src="app.js?v=20260924c"></script>
 </head>
 <body>
   <header class="app-header">
-    <div class="brand"><span class="brand-icon">▤</span><div><h1>通知图片生成器</h1><p>把想说的话，装进一张通知里。</p></div></div>
+    <div class="brand"><span class="brand-icon">▤</span><div><h1>录取通知生成器</h1><p>仅供娱乐，请勿用于真实通知。</p></div></div>
     <span class="local-badge"><i></i> 本地制作 · 无需上传</span>
   </header>
   <main class="workspace">
@@ -21,7 +21,7 @@
           <h3><span>01</span> 通知内容</h3>
           <label>顶部标题<input name="title" type="text"></label>
           <label>姓名 / 副标题 <small>留空则隐藏</small><input name="subtitle" type="text" placeholder="例如：张同学　复试总成绩：184.6"></label>
-          <div class="field-pair"><label>发送单位 <small>可留空</small><input name="sender" type="text" placeholder="发送单位"></label><label>发送时间 <small>可留空</small><input name="sentAt" type="text" placeholder="2026-09-25 09:43"></label></div>
+          <div class="field-pair"><label>发送单位 <small>可留空</small><input name="sender" type="text" placeholder="发送单位"></label><label>发送时间 <small>可留空</small><input name="sentAt" type="text" placeholder="2026-09-24 09:43"></label></div>
           <label>通知正文<textarea name="body" rows="4"></textarea></label>
           <label>底部状态文字 <small>留空则隐藏</small><textarea name="status" rows="2"></textarea></label>
         </section>
@@ -43,7 +43,7 @@
     </aside>
     <section class="preview-panel">
       <div class="preview-toolbar"><div><h2>实时预览</h2><p>导出时只保留下方通知，不包含操作界面</p></div><button id="export" class="primary-button" type="button">↓ 导出 PNG</button></div>
-      <div class="preview-stage" id="previewStage"><div id="previewFit"><article id="notice" aria-label="通知图片预览">
+      <div class="preview-stage" id="previewStage"><div id="previewFit"><article id="notice" aria-label="录取通知预览">
         <div id="noticeBreadcrumb" class="notice-breadcrumb"><span id="breadcrumb"></span><b>/</b><strong id="pageTitle"></strong></div>
         <div class="notice-content">
           <div class="notice-card">

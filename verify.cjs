@@ -13,6 +13,11 @@ const { pathToFileURL } = require('node:url');
     const errors = [];
     page.on('pageerror', error => errors.push(error.message));
     await page.goto(pathToFileURL(path.resolve('index.html')).href);
+    assert.equal(await page.title(), '录取通知生成器');
+    assert.equal(await page.locator('.app-header h1').textContent(), '录取通知生成器');
+    assert.equal(await page.locator('.app-header p').textContent(), '仅供娱乐，请勿用于真实通知。');
+    assert.equal(await page.locator('#body').textContent(), '您好，距离国庆还有6天，马上就要国庆假期了，要一起快乐起来吗？');
+    assert.equal(await page.locator('#status').textContent(), '您于2026-09-24 14:00接受了一张快乐邀请函');
     await page.screenshot({ path: 'test-output/desktop.png', fullPage: true });
     async function exportPNG(filename, width, scale) {
       const height = await page.locator('#notice').evaluate(el => el.offsetHeight);
@@ -89,9 +94,13 @@ const { pathToFileURL } = require('node:url');
     assert.equal(await page.locator('#tableBody tr').last().locator('td').last().getAttribute('colspan'), '3');
     await exportPNG('reference-figure-2.png', 1440, 1);
     await page.evaluate(() => localStorage.setItem('notice-generator-v1', JSON.stringify({
+      body: '您好，距离国庆节还有5天，马上就要国庆假期了，要一起快乐起来吗？',
+      status: '您于2026-09-25 14:00接受了一张快乐邀请函',
       rows: [['旧左', '内容一', '旧右', '内容二'], ['末项', '内容三', '', '']]
     })));
     await page.reload();
+    assert.equal(await page.locator('#body').textContent(), '您好，距离国庆还有6天，马上就要国庆假期了，要一起快乐起来吗？');
+    assert.equal(await page.locator('#status').textContent(), '您于2026-09-24 14:00接受了一张快乐邀请函');
     assert.equal(await page.locator('#entryEditor .entry-edit').count(), 3);
     assert.equal(await page.locator('#tableBody tr').count(), 2);
     assert.equal(await page.locator('#tableBody tr').last().locator('td').first().textContent(), '末项');

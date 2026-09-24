@@ -1,10 +1,12 @@
 'use strict';
 
 const STORAGE_KEY = 'notice-generator-v1';
+const oldDefaultBody = '您好，距离国庆节还有5天，马上就要国庆假期了，要一起快乐起来吗？';
+const oldDefaultStatus = '您于2026-09-25 14:00接受了一张快乐邀请函';
 const initialState = {
   title: '接受幸福的时刻', subtitle: '', sender: '', sentAt: '',
-  body: '您好，距离国庆节还有5天，马上就要国庆假期了，要一起快乐起来吗？',
-  status: '您于2026-09-25 14:00接受了一张快乐邀请函',
+  body: '您好，距离国庆还有6天，马上就要国庆假期了，要一起快乐起来吗？',
+  status: '您于2026-09-24 14:00接受了一张快乐邀请函',
   detailsTitle: '一些信息', breadcrumb: '我的待录取通知', pageTitle: '待录取通知详情',
   showBreadcrumb: false, width: '1200', scale: '2', fontSize: '22',
   entries: [
@@ -22,6 +24,8 @@ try {
     for (const key of Object.keys(initialState)) {
       if (key !== 'entries' && typeof saved[key] === typeof initialState[key]) state[key] = saved[key];
     }
+    if (state.body === oldDefaultBody) state.body = initialState.body;
+    if (state.status === oldDefaultStatus) state.status = initialState.status;
     const validEntries = entries => Array.isArray(entries) && entries.every(entry => Array.isArray(entry) && entry.length === 2 && entry.every(cell => typeof cell === 'string'));
     if (validEntries(saved.entries)) state.entries = saved.entries;
     else if (Array.isArray(saved.rows) && saved.rows.every(row => Array.isArray(row) && row.length === 4 && row.every(cell => typeof cell === 'string'))) {
