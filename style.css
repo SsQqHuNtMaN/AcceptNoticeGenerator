@@ -30,12 +30,12 @@ input::placeholder { color: #a7b0bb; }
 .field-pair label { margin-bottom: 15px; }
 .row-help { font-size: 10px; color: #95a1ae; display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
 .text-button { background: none; border: 0; color: #4c88bd; padding: 4px 0; font-size: 11px; }
-.row-edit { border: 1px solid #e5ebf2; border-radius: 8px; background: #f9fbfd; padding: 10px; margin-bottom: 9px; }
-.row-edit-header { display: flex; justify-content: space-between; align-items: center; font-size: 10px; color: #8d9aac; margin-bottom: 4px; }
-.row-edit-fields { display: grid; grid-template-columns: 1fr 1.7fr; gap: 6px; }
-.row-edit-fields input { margin-top: 0; min-width: 0; padding: 8px; background: #fff; }
-.remove-row { border: 0; background: none; font-size: 11px; color: #8d9aac; padding: 3px; }
-.remove-row:hover { color: #c85858; }
+.entry-edit { border: 1px solid #e5ebf2; border-radius: 8px; background: #f9fbfd; padding: 10px; margin-bottom: 9px; }
+.entry-edit-header { display: flex; justify-content: space-between; align-items: center; font-size: 10px; color: #8d9aac; margin-bottom: 4px; }
+.entry-edit-fields { display: grid; grid-template-columns: 1fr 1.7fr; gap: 6px; }
+.entry-edit-fields input { margin-top: 0; min-width: 0; padding: 8px; background: #fff; }
+.remove-entry { border: 0; background: none; font-size: 11px; color: #8d9aac; padding: 3px; }
+.remove-entry:hover { color: #c85858; }
 input[type=range] { display: block; width: 100%; accent-color: #4d8dcc; margin: 12px 0; }
 #fontSizeLabel { float: right; color: #90a0b0; }
 .check-label { display: flex; align-items: center; gap: 8px; }
@@ -55,14 +55,14 @@ input[type=checkbox] { accent-color: #4d8dcc; }
 .notice-breadcrumb b { color: #e3e6e7; font-weight: normal; }
 .notice-breadcrumb strong { font-weight: 600; }
 .notice-content { padding: 35px 30px 18px; }
-.notice-card { background: linear-gradient(115deg, #eaf7fb 0%, #edf4ff 100%); border-radius: 9px; padding: 0 32px 27px; overflow: hidden; }
-.ribbon { display: table; position: relative; max-width: 85%; margin: 0 auto; color: #fff; font-size: 1.18em; font-weight: 600; text-align: center; padding: 10px 52px 13px; background: linear-gradient(#86c5e8, #428ada); border-radius: 0 0 5px 5px; overflow-wrap: anywhere; }
+.notice-card { background: linear-gradient(115deg, #eaf7fb 0%, #edf4ff 100%); border-radius: 9px; padding: 0 32px 23px; overflow: hidden; }
+.ribbon { display: table; position: relative; max-width: 85%; margin: 0 auto; color: #fff; font-size: 1.18em; font-weight: 600; text-align: center; padding: 7px 52px 9px; background: linear-gradient(180deg, #86c5e8 0%, #4f94d9 82%, #4f94d9 100%); overflow-wrap: anywhere; }
 .ribbon::before, .ribbon::after { content: ""; position: absolute; top: 0; bottom: 0; width: 24px; background: #ebf6fc; }
 .ribbon::before { left: -13px; transform: skew(22deg); }
 .ribbon::after { right: -13px; transform: skew(-22deg); }
 .notice-subtitle { text-align: center; font-size: 1.16em; color: #3886bc; font-weight: 600; padding: 39px 0 38px; border-bottom: 1px solid #e2edf5; white-space: pre-wrap; overflow-wrap: anywhere; }
-.notice-message { padding: 33px 0 41px; }
-.sender-line { display: flex; flex-wrap: wrap; align-items: baseline; gap: 12px; margin-bottom: 42px; }
+.notice-message { padding: 33px 0 35px; }
+.sender-line { display: flex; flex-wrap: wrap; align-items: baseline; gap: 12px; margin-bottom: 38px; }
 .sender-line time { color: #939d9f; font-size: .86em; }
 .notice-body { white-space: pre-wrap; line-height: 1.9; overflow-wrap: anywhere; }
 .status-line { display: flex; align-items: center; justify-content: center; gap: 10px; color: #67a68d; font-size: .94em; line-height: 1.5; margin-top: 16px; }

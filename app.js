@@ -7,11 +7,11 @@ const initialState = {
   status: '您于2026-09-25 14:00接受了一张快乐邀请函',
   detailsTitle: '一些信息', breadcrumb: '我的待录取通知', pageTitle: '待录取通知详情',
   showBreadcrumb: false, width: '1200', scale: '2', fontSize: '22',
-  rows: [
-    ['我也', '不知道', '发生', '了什么'],
-    ['但是听说', '这种图片配色', '就算', '不点开看'],
-    ['也有人', '会点赞', '提前', '祝愿'],
-    ['朋友圈', '的各位', '国庆节', '快乐！']
+  entries: [
+    ['我也', '不知道'], ['发生', '了什么'],
+    ['但是听说', '这种图片配色'], ['就算', '不点开看'],
+    ['也有人', '会点赞'], ['提前', '祝愿'],
+    ['朋友圈', '的各位'], ['国庆节', '快乐！']
   ]
 };
 const copyInitial = () => JSON.parse(JSON.stringify(initialState));
@@ -20,9 +20,14 @@ try {
   const saved = JSON.parse(localStorage.getItem(STORAGE_KEY));
   if (saved && typeof saved === 'object') {
     for (const key of Object.keys(initialState)) {
-      if (key !== 'rows' && typeof saved[key] === typeof initialState[key]) state[key] = saved[key];
+      if (key !== 'entries' && typeof saved[key] === typeof initialState[key]) state[key] = saved[key];
     }
-    if (Array.isArray(saved.rows) && saved.rows.every(row => Array.isArray(row) && row.length === 4 && row.every(cell => typeof cell === 'string'))) state.rows = saved.rows;
+    const validEntries = entries => Array.isArray(entries) && entries.every(entry => Array.isArray(entry) && entry.length === 2 && entry.every(cell => typeof cell === 'string'));
+    if (validEntries(saved.entries)) state.entries = saved.entries;
+    else if (Array.isArray(saved.rows) && saved.rows.every(row => Array.isArray(row) && row.length === 4 && row.every(cell => typeof cell === 'string'))) {
+      // Preserve data saved by the previous two-items-per-row editor.
+      state.entries = saved.rows.flatMap(row => [row.slice(0, 2), ...(row[2].trim() || row[3].trim() ? [row.slice(2, 4)] : [])]);
+    }
     if (!['960', '1200', '1440'].includes(state.width)) state.width = '1200';
     if (!['1', '2', '3'].includes(state.scale)) state.scale = '2';
     if (!Number.isFinite(Number(state.fontSize)) || Number(state.fontSize) < 16 || Number(state.fontSize) > 30) state.fontSize = '22';
@@ -49,45 +54,45 @@ function fillForm() {
     if (input.type === 'checkbox') input.checked = value;
     else input.value = value;
   }
-  renderRowEditor();
+  renderEntryEditor();
 }
 
-function renderRowEditor() {
-  $('rowEditor').replaceChildren();
-  state.rows.forEach((row, rowIndex) => {
+function renderEntryEditor() {
+  $('entryEditor').replaceChildren();
+  state.entries.forEach((entry, entryIndex) => {
     const block = document.createElement('div');
-    block.className = 'row-edit';
+    block.className = 'entry-edit';
     const header = document.createElement('div');
-    header.className = 'row-edit-header';
+    header.className = 'entry-edit-header';
     const label = document.createElement('span');
-    label.textContent = `第 ${rowIndex + 1} 行`;
+    label.textContent = `第 ${entryIndex + 1} 栏`;
     const remove = document.createElement('button');
     remove.type = 'button';
-    remove.className = 'remove-row';
+    remove.className = 'remove-entry';
     remove.textContent = '删除';
-    remove.setAttribute('aria-label', `删除第 ${rowIndex + 1} 行`);
+    remove.setAttribute('aria-label', `删除第 ${entryIndex + 1} 栏`);
     remove.addEventListener('click', () => {
-      state.rows.splice(rowIndex, 1);
-      renderRowEditor();
+      state.entries.splice(entryIndex, 1);
+      renderEntryEditor();
       update();
     });
     header.append(label, remove);
     const fields = document.createElement('div');
-    fields.className = 'row-edit-fields';
-    row.forEach((value, cellIndex) => {
+    fields.className = 'entry-edit-fields';
+    entry.forEach((value, cellIndex) => {
       const input = document.createElement('input');
       input.type = 'text';
       input.value = value;
-      input.placeholder = cellIndex % 2 === 0 ? '字段' : '内容';
-      input.setAttribute('aria-label', `第 ${rowIndex + 1} 行${cellIndex < 2 ? '左' : '右'}侧${input.placeholder}`);
+      input.placeholder = cellIndex === 0 ? '字段' : '内容';
+      input.setAttribute('aria-label', `第 ${entryIndex + 1} 栏${input.placeholder}`);
       input.addEventListener('input', () => {
-        state.rows[rowIndex][cellIndex] = input.value;
+        state.entries[entryIndex][cellIndex] = input.value;
         update();
       });
       fields.append(input);
     });
     block.append(header, fields);
-    $('rowEditor').append(block);
+    $('entryEditor').append(block);
   });
 }
 
@@ -100,21 +105,24 @@ function render() {
   $('noticeBreadcrumb').hidden = !state.showBreadcrumb;
   $('breadcrumbFields').hidden = !state.showBreadcrumb;
   $('detailsTitle').hidden = !state.detailsTitle.trim();
-  $('detailsTable').hidden = !state.rows.length;
+  $('detailsTable').hidden = !state.entries.length;
   $('notice').style.width = `${state.width}px`;
   $('notice').style.fontSize = `${state.fontSize}px`;
   $('fontSizeLabel').textContent = `${state.fontSize} px`;
   const body = $('tableBody');
   body.replaceChildren();
-  for (const row of state.rows) {
+  for (let i = 0; i < state.entries.length; i += 2) {
     const tr = document.createElement('tr');
-    const cells = !row[2].trim() && !row[3].trim() ? row.slice(0, 2) : row;
-    cells.forEach((value, index) => {
-      const td = document.createElement('td');
-      td.textContent = value;
-      if (cells.length === 2 && index === 1) td.colSpan = 3;
-      tr.append(td);
-    });
+    const addEntry = (entry, last) => {
+      const label = document.createElement('td');
+      label.textContent = entry[0];
+      const value = document.createElement('td');
+      value.textContent = entry[1];
+      if (last) value.colSpan = 3;
+      tr.append(label, value);
+    };
+    addEntry(state.entries[i], i + 1 === state.entries.length);
+    if (state.entries[i + 1]) addEntry(state.entries[i + 1], false);
     body.append(tr);
   }
   fitPreview();
@@ -140,11 +148,11 @@ form.addEventListener('input', event => {
   state[input.name] = input.type === 'checkbox' ? input.checked : input.value;
   update();
 });
-$('addRow').addEventListener('click', () => {
-  state.rows.push(['', '', '', '']);
-  renderRowEditor();
+$('addEntry').addEventListener('click', () => {
+  state.entries.push(['', '']);
+  renderEntryEditor();
   update();
-  $('rowEditor').lastElementChild.querySelector('input').focus();
+  $('entryEditor').lastElementChild.querySelector('input').focus();
 });
 $('reset').addEventListener('click', () => $('resetDialog').showModal());
 $('cancelReset').addEventListener('click', () => $('resetDialog').close());

@@ -32,9 +32,21 @@ const { pathToFileURL } = require('node:url');
     await page.locator('[name=sentAt]').fill('2026-09-25 09:43');
     await page.locator('[name=body]').fill('第一行测试\n这是一段用于检查换行的很长文字。'.repeat(8));
     await page.locator('[name=showBreadcrumb]').check();
-    await page.locator('#addRow').click();
+    assert.equal(await page.locator('#entryEditor .entry-edit').count(), 8);
+    await page.locator('#addEntry').click();
+    assert.equal(await page.locator('#entryEditor .entry-edit').count(), 9);
     assert.equal(await page.locator('#tableBody tr').count(), 5);
-    await page.getByRole('button', { name: '删除第 5 行', exact: true }).click();
+    const lastFields = page.locator('#entryEditor .entry-edit').last().locator('input');
+    await lastFields.nth(0).fill('备注');
+    await lastFields.nth(1).fill('测试内容');
+    assert.equal(await page.locator('#tableBody tr').last().locator('td').count(), 2);
+    assert.equal(await page.locator('#tableBody tr').last().locator('td').first().textContent(), '备注');
+    assert.equal(await page.locator('#tableBody tr').last().locator('td').last().getAttribute('colspan'), '3');
+    await page.locator('#addEntry').click();
+    assert.equal(await page.locator('#entryEditor .entry-edit').count(), 10);
+    assert.equal(await page.locator('#tableBody tr').last().locator('td').count(), 4);
+    await page.getByRole('button', { name: '删除第 10 栏', exact: true }).click();
+    await page.getByRole('button', { name: '删除第 9 栏', exact: true }).click();
     assert.equal(await page.locator('#tableBody tr').count(), 4);
     await page.reload();
     assert.equal(await page.locator('#noticeTitle').textContent(), '<测试标题> & 快乐');
@@ -61,23 +73,31 @@ const { pathToFileURL } = require('node:url');
     await page.locator('[name=width]').selectOption('1440');
     await page.locator('[name=scale]').selectOption('1');
     await page.locator('[name=fontSize]').fill('24');
-    const referenceRows = [
-      ['招生单位', '上海交通大学', '层次', '直博生'],
-      ['院系所', '人工智能学院', '专业', '(081200)计算机科学与技术'],
-      ['学习方式', '全日制', '研究方向', '不分研究方向'],
-      ['导师', '陈思衡', '专项计划', '普通计划'],
-      ['就业类型', '非定向就业', '', '']
+    const referenceEntries = [
+      ['招生单位', '上海交通大学'], ['层次', '直博生'],
+      ['院系所', '人工智能学院'], ['专业', '(081200)计算机科学与技术'],
+      ['学习方式', '全日制'], ['研究方向', '不分研究方向'],
+      ['导师', '陈思衡'], ['专项计划', '普通计划'],
+      ['就业类型', '非定向就业']
     ];
-    for (let row = 1; row <= referenceRows.length; row++) {
-      if (row > 4) await page.locator('#addRow').click();
-      const inputs = page.locator(`#rowEditor .row-edit:nth-child(${row}) input`);
-      for (let cell = 0; cell < 4; cell++) await inputs.nth(cell).fill(referenceRows[row - 1][cell]);
+    for (let entry = 0; entry < referenceEntries.length; entry++) {
+      if (entry >= 8) await page.locator('#addEntry').click();
+      const inputs = page.locator(`#entryEditor .entry-edit:nth-child(${entry + 1}) input`);
+      for (let cell = 0; cell < 2; cell++) await inputs.nth(cell).fill(referenceEntries[entry][cell]);
     }
     assert.equal(await page.locator('#tableBody tr').last().locator('td').count(), 2);
     assert.equal(await page.locator('#tableBody tr').last().locator('td').last().getAttribute('colspan'), '3');
     await exportPNG('reference-figure-2.png', 1440, 1);
+    await page.evaluate(() => localStorage.setItem('notice-generator-v1', JSON.stringify({
+      rows: [['旧左', '内容一', '旧右', '内容二'], ['末项', '内容三', '', '']]
+    })));
+    await page.reload();
+    assert.equal(await page.locator('#entryEditor .entry-edit').count(), 3);
+    assert.equal(await page.locator('#tableBody tr').count(), 2);
+    assert.equal(await page.locator('#tableBody tr').last().locator('td').first().textContent(), '末项');
+    assert.equal(await page.locator('#tableBody tr').last().locator('td').last().getAttribute('colspan'), '3');
     assert.deepEqual(errors, []);
-    console.log('PASS: local-file loading, editing, safe text, rows, persistence, mobile layout, PNG sizes, reset, figure-2 export; no browser errors.');
+    console.log('PASS: local-file loading, single-entry add/delete, odd-row layout, old-storage migration, persistence, mobile layout, PNG sizes, reset, figure-2 export; no browser errors.');
   } finally {
     await browser.close();
   }
