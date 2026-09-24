@@ -158,15 +158,6 @@ $('addEntry').addEventListener('click', () => {
   update();
   $('entryEditor').lastElementChild.querySelector('input').focus();
 });
-$('reset').addEventListener('click', () => $('resetDialog').showModal());
-$('cancelReset').addEventListener('click', () => $('resetDialog').close());
-$('confirmReset').addEventListener('click', () => {
-  state = copyInitial();
-  fillForm();
-  update();
-  $('resetDialog').close();
-});
-
 $('export').addEventListener('click', async () => {
   if (exporting) return;
   exporting = true;

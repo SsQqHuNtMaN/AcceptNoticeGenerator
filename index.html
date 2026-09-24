@@ -4,9 +4,9 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>录取通知生成器</title>
-  <link rel="stylesheet" href="style.css?v=20260924d">
+  <link rel="stylesheet" href="style.css?v=20260924e">
   <script defer src="vendor/html2canvas.min.js"></script>
-  <script defer src="app.js?v=20260924e"></script>
+  <script defer src="app.js?v=20260924f"></script>
 </head>
 <body>
   <header class="app-header">
@@ -39,7 +39,7 @@
           <div id="breadcrumbFields"><label>导航文字<input name="breadcrumb" type="text"></label><label>当前页面<input name="pageTitle" type="text"></label></div>
         </section>
       </form>
-      <div class="editor-footer"><span id="saveStatus">内容自动保存在此浏览器</span><button type="button" id="reset" class="text-button muted">恢复初始内容</button></div>
+      <div class="editor-footer"><span id="saveStatus">内容自动保存在此浏览器</span></div>
     </aside>
     <section class="preview-panel">
       <div class="preview-toolbar"><div><h2>实时预览</h2><p>导出时只保留下方通知，不包含操作界面</p></div><button id="export" class="primary-button" type="button">↓ 导出 PNG</button></div>
@@ -60,6 +60,5 @@
       <p id="feedback" role="status" aria-live="polite"></p>
     </section>
   </main>
-  <dialog id="resetDialog"><h2>恢复初始内容？</h2><p>当前编辑的文字和表格将被替换。</p><div class="dialog-actions"><button id="cancelReset" type="button">继续编辑</button><button id="confirmReset" class="primary-button" type="button">恢复初始内容</button></div></dialog>
 </body>
 </html>

@@ -18,6 +18,7 @@ const { pathToFileURL } = require('node:url');
     assert.equal(await page.locator('.app-header p').textContent(), '仅供娱乐，请勿用于真实通知。');
     assert.equal(await page.locator('#body').textContent(), '您好，距离国庆还有6天，马上就要国庆假期了，要一起快乐起来吗？');
     assert.equal(await page.locator('#status').textContent(), '您于2026-09-24 14:00接受了一张快乐邀请函');
+    assert.equal(await page.locator('#reset, #restoreDefaultTable, #resetDialog').count(), 0);
     assert.equal(await page.locator('#detailsTitle').textContent(), '一些信息');
     assert.deepEqual(await page.locator('#tableBody tr').allTextContents(), [
       '我也不知道发生了什么',
@@ -69,9 +70,6 @@ const { pathToFileURL } = require('node:url');
     await exportPNG('mobile-edited.png', 960, 1);
     assert.equal(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth), true);
     await page.screenshot({ path: 'test-output/mobile.png', fullPage: true });
-    await page.locator('#reset').click();
-    await page.locator('#confirmReset').click();
-    assert.equal(await page.locator('#noticeTitle').textContent(), '接受幸福的时刻');
     // Export the supplied second reference using the same editor and download path.
     await page.setViewportSize({ width: 1500, height: 1050 });
     await page.locator('[name=title]').fill('待录取通知');
@@ -113,7 +111,7 @@ const { pathToFileURL } = require('node:url');
     assert.equal(await page.locator('#tableBody tr').last().locator('td').first().textContent(), '末项');
     assert.equal(await page.locator('#tableBody tr').last().locator('td').last().getAttribute('colspan'), '3');
     assert.deepEqual(errors, []);
-    console.log('PASS: local-file loading, single-entry add/delete, odd-row layout, old-storage migration, persistence, mobile layout, PNG sizes, reset, figure-2 export; no browser errors.');
+    console.log('PASS: local-file loading, default table, single-entry add/delete, odd-row layout, old-storage migration, persistence, mobile layout, PNG sizes, figure-2 export; no browser errors.');
   } finally {
     await browser.close();
   }

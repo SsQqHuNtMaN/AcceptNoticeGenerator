@@ -40,8 +40,7 @@ input[type=range] { display: block; width: 100%; accent-color: #4d8dcc; margin: 
 #fontSizeLabel { float: right; color: #90a0b0; }
 .check-label { display: flex; align-items: center; gap: 8px; }
 input[type=checkbox] { accent-color: #4d8dcc; }
-.editor-footer { padding: 16px 22px; font-size: 10px; color: #96a1af; display: flex; flex-wrap: wrap; gap: 8px; justify-content: space-between; }
-.muted { color: #8997a6; font-size: 10px; }
+.editor-footer { padding: 16px 22px; font-size: 10px; color: #96a1af; }
 .preview-panel { min-width: 0; position: sticky; top: 24px; }
 .preview-toolbar { display: flex; align-items: center; justify-content: space-between; gap: 15px; padding: 3px 0 22px; }
 .preview-toolbar p { color: #92a0af; font-size: 11px; margin: 8px 0 0; }
@@ -76,11 +75,6 @@ td:nth-child(odd) { background: #f8f9f9; }
 .preview-footer { display: flex; justify-content: space-between; gap: 10px; font-size: 11px; color: #8b9aaa; padding: 16px 2px; }
 #feedback { min-height: 20px; font-size: 12px; color: #4c7d6b; }
 [hidden] { display: none !important; }
-dialog { border: 1px solid #e3eaf1; border-radius: 12px; padding: 25px; color: #334456; }
-dialog::backdrop { background: #24334466; }
-dialog p { font-size: 13px; margin: 18px 0 25px; }
-.dialog-actions { display: flex; justify-content: flex-end; gap: 12px; }
-#cancelReset { border: 1px solid #dfe6ed; border-radius: 7px; background: white; padding: 10px 15px; font-size: 12px; }
 @media (min-width: 1600px) { .workspace { grid-template-columns: 400px minmax(0, 1fr); } }
 @media (max-width: 1000px) { .workspace { padding: 20px; gap: 20px; grid-template-columns: 320px minmax(0, 1fr); } .preview-stage { padding: 14px; } .preview-toolbar { align-items: flex-start; flex-wrap: wrap; } }
 @media (max-width: 740px) { .app-header { padding: 0 20px; height: 84px; } .local-badge { display: none; } .workspace { display: flex; flex-direction: column-reverse; padding: 18px 14px; } .editor, .preview-panel { width: 100%; position: static; } .preview-stage { min-height: 0; padding: 12px; } .preview-toolbar p { max-width: 190px; line-height: 1.6; } .primary-button { padding: 12px 15px; } }
