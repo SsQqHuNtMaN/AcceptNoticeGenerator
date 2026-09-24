@@ -4,9 +4,9 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>录取通知生成器</title>
-  <link rel="stylesheet" href="style.css?v=20260924b">
+  <link rel="stylesheet" href="style.css?v=20260924c">
   <script defer src="vendor/html2canvas.min.js"></script>
-  <script defer src="app.js?v=20260924c"></script>
+  <script defer src="app.js?v=20260924d"></script>
 </head>
 <body>
   <header class="app-header">
@@ -28,7 +28,7 @@
         <section class="form-section">
           <h3><span>02</span> 详情表格</h3>
           <label>表格标题<input name="detailsTitle" type="text"></label>
-          <div class="row-help"><span>每栏一组「字段 + 内容」，两栏排成一行</span><button type="button" id="addEntry" class="text-button">＋ 添加一栏</button></div>
+          <div class="row-help"><span>每栏一组「字段 + 内容」，两栏排成一行</span><div class="entry-actions"><button type="button" id="restoreDefaultTable" class="text-button">恢复截图表格</button><button type="button" id="addEntry" class="text-button">＋ 添加一栏</button></div></div>
           <div id="entryEditor"></div>
         </section>
         <section class="form-section">

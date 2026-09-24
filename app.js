@@ -158,6 +158,13 @@ $('addEntry').addEventListener('click', () => {
   update();
   $('entryEditor').lastElementChild.querySelector('input').focus();
 });
+$('restoreDefaultTable').addEventListener('click', () => {
+  state.detailsTitle = initialState.detailsTitle;
+  state.entries = initialState.entries.map(entry => [...entry]);
+  form.elements.namedItem('detailsTitle').value = state.detailsTitle;
+  renderEntryEditor();
+  update();
+});
 $('reset').addEventListener('click', () => $('resetDialog').showModal());
 $('cancelReset').addEventListener('click', () => $('resetDialog').close());
 $('confirmReset').addEventListener('click', () => {
