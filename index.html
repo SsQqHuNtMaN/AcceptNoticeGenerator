@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>通知图片生成器</title>
+  <link rel="stylesheet" href="style.css">
+  <script defer src="vendor/html2canvas.min.js"></script>
+  <script defer src="app.js"></script>
+</head>
+<body>
+  <header class="app-header">
+    <div class="brand"><span class="brand-icon">▤</span><div><h1>通知图片生成器</h1><p>把想说的话，装进一张通知里。</p></div></div>
+    <span class="local-badge"><i></i> 本地制作 · 无需上传</span>
+  </header>
+  <main class="workspace">
+    <aside class="editor">
+      <div class="panel-heading"><h2>编辑内容</h2><span>修改即刻预览</span></div>
+      <form id="editorForm" autocomplete="off">
+        <section class="form-section">
+          <h3><span>01</span> 通知内容</h3>
+          <label>顶部标题<input name="title" type="text"></label>
+          <label>姓名 / 副标题 <small>留空则隐藏</small><input name="subtitle" type="text" placeholder="例如：张同学　复试总成绩：184.6"></label>
+          <div class="field-pair"><label>发送单位 <small>可留空</small><input name="sender" type="text" placeholder="发送单位"></label><label>发送时间 <small>可留空</small><input name="sentAt" type="text" placeholder="2026-09-25 09:43"></label></div>
+          <label>通知正文<textarea name="body" rows="4"></textarea></label>
+          <label>底部状态文字 <small>留空则隐藏</small><textarea name="status" rows="2"></textarea></label>
+        </section>
+        <section class="form-section">
+          <h3><span>02</span> 详情表格</h3>
+          <label>表格标题<input name="detailsTitle" type="text"></label>
+          <div class="row-help"><span>每行两组「字段 + 内容」</span><button type="button" id="addRow" class="text-button">＋ 添加一行</button></div>
+          <div id="rowEditor"></div>
+        </section>
+        <section class="form-section">
+          <h3><span>03</span> 图片设置</h3>
+          <div class="field-pair"><label>图片宽度<select name="width"><option value="960">960 px</option><option value="1200">1200 px</option><option value="1440">1440 px</option></select></label><label>导出清晰度<select name="scale"><option value="1">1× 标准</option><option value="2">2× 高清</option><option value="3">3× 超清</option></select></label></div>
+          <label>文字大小 <span id="fontSizeLabel"></span><input name="fontSize" type="range" min="16" max="30" step="1"></label>
+          <label class="check-label"><input name="showBreadcrumb" type="checkbox">显示顶部导航文字</label>
+          <div id="breadcrumbFields"><label>导航文字<input name="breadcrumb" type="text"></label><label>当前页面<input name="pageTitle" type="text"></label></div>
+        </section>
+      </form>
+      <div class="editor-footer"><span id="saveStatus">内容自动保存在此浏览器</span><button type="button" id="reset" class="text-button muted">恢复初始内容</button></div>
+    </aside>
+    <section class="preview-panel">
+      <div class="preview-toolbar"><div><h2>实时预览</h2><p>导出时只保留下方通知，不包含操作界面</p></div><button id="export" class="primary-button" type="button">↓ 导出 PNG</button></div>
+      <div class="preview-stage" id="previewStage"><div id="previewFit"><article id="notice" aria-label="通知图片预览">
+        <div id="noticeBreadcrumb" class="notice-breadcrumb"><span id="breadcrumb"></span><b>/</b><strong id="pageTitle"></strong></div>
+        <div class="notice-content">
+          <div class="notice-card">
+            <div class="ribbon"><span id="noticeTitle"></span></div>
+            <div id="noticeSubtitle" class="notice-subtitle"></div>
+            <div class="notice-message"><div id="senderLine" class="sender-line"><span id="sender"></span><time id="sentAt"></time></div><div id="body" class="notice-body"></div></div>
+            <div id="statusLine" class="status-line"><span class="check-icon" aria-hidden="true"></span><span id="status"></span></div>
+          </div>
+          <h2 id="detailsTitle" class="details-title"></h2>
+          <table id="detailsTable"><colgroup><col class="label-col"><col><col class="label-col"><col></colgroup><tbody id="tableBody"></tbody></table>
+        </div>
+      </article></div></div>
+      <div class="preview-footer"><span id="dimensions"></span><span>PNG 格式 · 白色背景</span></div>
+      <p id="feedback" role="status" aria-live="polite"></p>
+    </section>
+  </main>
+  <dialog id="resetDialog"><h2>恢复初始内容？</h2><p>当前编辑的文字和表格将被替换。</p><div class="dialog-actions"><button id="cancelReset" type="button">继续编辑</button><button id="confirmReset" class="primary-button" type="button">恢复初始内容</button></div></dialog>
+</body>
+</html>
